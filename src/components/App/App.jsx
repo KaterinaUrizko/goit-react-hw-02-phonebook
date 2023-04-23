@@ -16,7 +16,7 @@ state = {
     {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
     {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
   ],
-    filter:' ',
+    filter:'',
   }
 
   formSubmit = ({ name, number }) => {
@@ -24,13 +24,16 @@ state = {
       id: nanoid(),
       name,
       number,
+      
     };
-    
-    this.state.contacts.some(
+
+    const contactChecked = this.state.contacts.some(
       item =>
         (item.name.toLowerCase() === contact.name.toLowerCase() &&
-          item.number === contact.number) || item.number === contact.number)
-      ? alert(`${name} is already in contacts`)
+          item.number === contact.number) || item.number === contact.number);
+    
+  
+      contactChecked ? alert(`${name} is already in contacts`)
       : this.setState(({ contacts }) => ({
           contacts: [contact, ...contacts],
         }));
@@ -38,7 +41,7 @@ state = {
 
   changeFilterInput = e => {
     this.setState({ filter: e.target.value });
-  };
+     };
 
   findContacts = () => {
     const { filter, contacts } = this.state;
@@ -54,13 +57,13 @@ state = {
   };
 
   render() {
-    
+   
     return (
       <section>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmit} />
         <h2>Contacts</h2>
-        <Filter filter={this.filter} changeFilterInput={this.changeFilterInput} />
+        <Filter filter={this.state.filter} changeFilterInput={this.changeFilterInput} />
         <ContactList
           contacts={this.findContacts()}
           deleteContact={this.deleteContact}
